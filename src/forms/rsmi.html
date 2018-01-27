@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <link rel="stylesheet" href="{{base_path('fonts/Nunito_Sans/css/nunitosans.css')}}">
+        <link rel="stylesheet" href="{{base_path('public/css/main.css')}}">
+
+
+        <style type="text/css">
+
+          /*
+          printable-form.less
+          ------------------------------------------------------------------------- */
+          .printable-form-wrapper {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+          }
+          /* default for 'a4' bond paper prints */
+          .printable-form {
+            display: block;
+            position: relative;
+            /*width: 8.3in;
+            height: 13in;
+            max-height: 13in;
+            min-height: 13in;*/
+            padding: 0 15px;
+            margin: 30px 0;
+            border: solid 1px transparent;
+            /* main form header area */
+            /* main form letterhead */
+            /* main form content area */
+            /* main form footer area */
+          }
+          .printable-form * {
+            font-family: 'Arial' !important;
+            font-size: 13px !important;
+            font-weight: 400;
+            color: #545454;
+          }
+          .printable-form * strong {
+            font-family: 'Arial';
+            font-weight: 700;
+            color: #2e2e2e;
+          }
+          .printable-form__head {
+            position: absolute;
+            top: 10px;
+            left: 0;
+            right: 0;
+            width: 100%;
+            padding: 0 15px;
+          }
+          .printable-form__head__vision {
+            display: block;
+            width: 100%;
+            text-align: center;
+            padding: 0;
+            margin: 0;
+            font-style: italic;
+          }
+          .printable-form__letterhead {
+            display: block;
+            width: 100%;
+            margin-top: 60px;
+            margin-bottom: 25px;
+            text-align: center;
+          }
+          .printable-form__letterhead__logo {
+            height: 75px;
+            width: 75px;
+          }
+          .printable-form__letterhead__details {
+            display: block;
+            font-weight: 400;
+            margin-top: 10px;
+          }
+          .printable-form__letterhead__details.inside {
+            text-align: center;
+            margin-top: 0;
+            margin-bottom: 30px;
+          }
+          .printable-form__body {
+            display: block;
+            width: 100%;
+            margin-top: 60px;
+          }
+          .printable-form__body.no-letterhead {
+            margin-top: 80px;
+          }
+          .printable-form__body.boxed {
+            margin-top: 60px;
+            border: solid 1px #cccccc;
+          }
+          .printable-form__body.boxed .printable-form__letterhead {
+            margin-top: 30px;
+          }
+          .printable-form__body.boxed .printable-form__body__table {
+            margin-bottom: 0;
+          }
+          .printable-form__body table,
+          .printable-form__body p,
+          .printable-form__body ol,
+          .printable-form__body ul {
+            margin-bottom: 20px;
+          }
+          .printable-form__body table.indent,
+          .printable-form__body p.indent,
+          .printable-form__body ol.indent,
+          .printable-form__body ul.indent {
+            padding-left: 50px;
+          }
+          .printable-form__body table.indent-first-line,
+          .printable-form__body p.indent-first-line,
+          .printable-form__body ol.indent-first-line,
+          .printable-form__body ul.indent-first-line {
+            text-indent: 50px;
+          }
+          .printable-form__body__title {
+            font-size: 12px;
+            font-weight: 700;
+            text-transform: uppercase;
+            text-align: center;
+            margin-bottom: 20px;
+            display: block;
+            width: 100%;
+            color: #2e2e2e;
+          }
+          .printable-form__body__subtitle {
+            text-align: center;
+            margin-bottom: 20px;
+            display: block;
+            width: 100%;
+          }
+          .printable-form__body__table {
+            width: 100%;
+            table-layout: auto;
+            border-collapse: collapse;
+          }
+          .printable-form__body__table.no-border {
+            border: none;
+          }
+          .printable-form__body__table.no-border tr td {
+            border: none;
+            padding: 4px 0;
+          }
+          .printable-form__body__table.no-padding tr td {
+            padding: 0;
+          }
+          .printable-form__body__table.no-space {
+            margin: 0;
+            padding: 0;
+          }
+          .printable-form__body__table tr td {
+            font-size: 10px;
+            font-weight: 400;
+            padding: 4px;
+            vertical-align: top;
+            text-align: left;
+            border: solid 1px #adadad;
+          }
+          .printable-form__body__table tr td .signatory {
+            margin: 0;
+          }
+          .printable-form__body__table tr td .signatory.no-border {
+            border: none;
+          }
+          .printable-form__body__table tr td .signatory.no-border tr td {
+            border: none;
+            padding: 4px 0;
+          }
+          .printable-form__body__table tr td .signatory.no-padding tr td {
+            padding: 0;
+          }
+          .printable-form__body__table tr td .signatory .signatory-rank-justify {
+            text-align: justify;
+            margin: 0;
+            padding: 0;
+            height: 12px;
+            line-height: 1;
+          }
+          .printable-form__body__table tr td .signatory .signatory-rank-justify span {
+            display: inline-block;
+            width: 100%;
+            height: 1px;
+          }
+          .printable-form__body__table tr td.border-top-only {
+            border-top: solid 1px #adadad;
+            border-left: none;
+            border-right: none;
+            border-bottom: none;
+          }
+          .printable-form__body__table tr td.border-right-only {
+            border-right: solid 1px #adadad;
+            border-left: none;
+            border-bottom: none;
+            border-top: none;
+          }
+          .printable-form__body__table tr td.border-bottom-only {
+            border-bottom: solid 1px #adadad;
+            border-left: none;
+            border-right: none;
+            border-top: none;
+          }
+          .printable-form__body__table tr td.border-left-only {
+            border-left: solid 1px #adadad;
+            border-right: none;
+            border-bottom: none;
+            border-top: none;
+          }
+          .printable-form__body__table tr td.no-border {
+            border: none !important;
+          }
+          .printable-form__body__table tr td.no-border-top {
+            border-top: none !important;
+          }
+          .printable-form__body__table tr td.no-border-right {
+            border-right: none !important;
+          }
+          .printable-form__body__table tr td.no-border-bottom {
+            border-bottom: none !important;
+          }
+          .printable-form__body__table tr td.no-border-left {
+            border-left: none !important;
+          }
+          .printable-form__body__table tr td.align-left {
+            text-align: left !important;
+          }
+          .printable-form__body__table tr td.align-center {
+            text-align: center !important;
+          }
+          .printable-form__body__table tr td.align-right {
+            text-align: right !important;
+          }
+          .printable-form__body__table tr td.align-justify {
+            text-align: justify !important;
+          }
+          .printable-form__body__table tr td.align-middle {
+            vertical-align: middle !important;
+          }
+          .printable-form__body__table tr td.align-bottom {
+            vertical-align: bottom !important;
+          }
+          .printable-form__body__table tr td.align-top {
+            vertical-align: top !important;
+          }
+          .printable-form__body__table tr td.fix-border {
+            border-bottom: none !important;
+          }
+          .printable-form__body__table tr td.no-padding {
+            padding: 0 4px !important;
+          }
+          .printable-form__foot {
+            position: absolute;
+            bottom: 10px;
+            left: 0;
+            right: 0;
+            width: 100%;
+          }
+          .printable-form__foot__table {
+            width: 100%;
+            border-collapse: collapse;
+          }
+          .printable-form__foot__table tr td {
+            width: 50%;
+            padding: 0 15px;
+          }
+          .printable-form__foot__values {
+            display: block;
+            width: 100%;
+            text-align: center;
+            padding: 0;
+            margin: 0 0 20px 0;
+            font-style: italic;
+          }
+          .printable-form__foot__ref {
+            display: block;
+            width: 100%;
+            font-size: 10px;
+            font-weight: 400;
+            text-align: left;
+            font-style: italic;
+          }
+          .printable-form__foot__code {
+            display: block;
+            height: 20px;
+            text-align: right;
+          }
+          .printable-form__foot__code img {
+            height: 100%;
+          }
+        </style>
+    </head>
+
+    <body>
+
+      <div class="printable-form-wrapper">
+          <div class="printable-form">
+              <!-- form header -->
+              <div class="printable-form__head">
+                  <p class="printable-form__head__vision">AFP Vision 2028: A World-class Armed Forces, Source of National Pride</p>
+              </div>
+              <!-- form body -->
+              <div class="printable-form__body boxed">
+                  <!-- letterhead -->
+                  <div class="printable-form__letterhead">
+                      <span class="printable-form__letterhead__details">
+                      {{headers}}
+                      </span>
+                  </div>
+                  <!-- title -->
+                  <span class="printable-form__body__title">Report of Supplies and Material Issued</span>
+                  <!-- content -->
+                  <table class="printable-form__body__table">
+                      <tr>
+                          <td class="no-border-bottom" colspan="2"></td>
+                          <td class="no-border-bottom"></td>
+                      </tr>
+                      <tr>
+                          <td class="border-left-only" width="10%">Supplier</td>
+                          <td class="border-right-only" width="50%"><strong>{{supplier_name}}</strong></td>
+                          <td class="border-right-only" width="40%">Date:</td>
+                      </tr>
+                      <tr>
+                          <td class="border-left-only">PO No.</td>
+                          <td class="border-right-only"><strong>{{po_number}}</strong></td>
+                          <td class="border-right-only">No:</td>
+                      </tr>
+                      <tr>
+                          <td class="border-left-only">Amount:</td>
+                          <td class="border-right-only"><strong>{{total_amount}}</strong></td>
+                          <td class="border-right-only"></td>
+                      </tr>
+                      <tr>
+                          <td class="no-border-bottom no-border-top" colspan="2"></td>
+                          <td class="no-border-bottom no-border-top"></td>
+                      </tr>
+                  </table>
+                  <table class="printable-form__body__table">
+                      <tr>
+                          <td colspan="8">To be filled up in the Supply and Property Unit</td>
+                      </tr>
+                      <tr>
+                          <td class="align-middle align-center" width="10%"><strong>RIS No.</strong></td>
+                          <td class="align-middle align-center" width="10%"><strong>Responsibility Code</strong></td>
+                          <td class="align-middle align-center" width="5%"><strong>Stock No.</strong></td>
+                          <td class="align-middle align-center" width="35%"><strong>Item</strong></td>
+                          <td class="align-middle align-center" width="5%"><strong>Unit</strong></td>
+                          <td class="align-middle align-center" width="5%"><strong>Qty Issued</strong></td>
+                          <td class="align-middle align-center" width="15%"><strong>Unit Cost</strong></td>
+                          <td class="align-middle align-center" width="15%"><strong>Amount</strong></td>
+                      </tr>
+
+                      {{items}}
+                      <tr>
+                          <td class="align-center"  colspan="7" style="text-transform:uppercase">{{total_amount_words}} Pesos Only</td>
+                          <td  class="align-right" >Php {{total_amount}}</td>
+                      </tr>
+                      <tr>
+                          <td colspan="8" height="80px"></td>
+                      </tr>
+                      <tr>
+                          <td class="align-center" colspan="8"><strong>RECAPITULATION</strong></td>
+                      </tr>
+                      <tr>
+                          <td><strong></strong></td>
+                          <td><strong>Stock No.</strong></td>
+                          <td><strong>Qty</strong></td>
+                          <td><strong></strong></td>
+                          <td colspan="2"><strong>Unit Cost</strong></td>
+                          <td><strong>Unit Cost</strong></td>
+                          <td><strong>Amount</strong></td>
+                      </tr>
+                      <tr>
+                          <td>&nbsp;</td>
+                          <td></td>
+                          <td></td>
+                          <td></td>
+                          <td colspan="2"></td>
+                          <td></td>
+                          <td></td>
+                      </tr>
+                      <tr>
+                          <td>&nbsp;</td>
+                          <td></td>
+                          <td></td>
+                          <td></td>
+                          <td colspan="2"></td>
+                          <td></td>
+                          <td></td>
+                      </tr>
+                      <tr>
+                          <td>&nbsp;</td>
+                          <td></td>
+                          <td></td>
+                          <td></td>
+                          <td colspan="2"></td>
+                          <td></td>
+                          <td></td>
+                      </tr>
+                      <tr>
+                          <td class="no-border-bottom" colspan="4" height="60px"></td>
+                          <td colspan="4"></td>
+                      </tr>
+                      <tr>
+                          <td class="align-center no-border-top" colspan="4">
+                              <strong>{{receiver_ranks}} {{receiver_name}} {{receiver_branch}}</strong><br>
+                              {{receiver_designation}}
+                          </td>
+                          <td class="align-middle align-center" colspan="4">Accounting Clerk</td>
+                      </tr>
+                  </table>
+              </div>
+          </div>
+      </div>
+
+    </body>
+</html>

@@ -1,0 +1,134 @@
+{
+  "name": "upr-template",
+  "version": "0.0.0",
+  "author": "Karl Limlengco <kslimlengco@revlv.net>",
+  "description": "An electron-vue project",
+  "license": null,
+  "main": "./dist/electron/main.js",
+  "scripts": {
+    "build": "node .electron-vue/build.js && electron-builder",
+    "build:dir": "node .electron-vue/build.js && electron-builder --dir",
+    "build:clean": "cross-env BUILD_TARGET=clean node .electron-vue/build.js",
+    "build:web": "cross-env BUILD_TARGET=web node .electron-vue/build.js",
+    "dev": "node .electron-vue/dev-runner.js",
+    "pack": "npm run pack:main && npm run pack:renderer",
+    "pack:main": "cross-env NODE_ENV=production webpack --progress --colors --config .electron-vue/webpack.main.config.js",
+    "pack:renderer": "cross-env NODE_ENV=production webpack --progress --colors --config .electron-vue/webpack.renderer.config.js",
+    "postinstall": "electron-builder install-app-deps",
+    "build-all": "npm run pack &&build -mwl"
+  },
+  "build": {
+    "productName": "upr-template",
+    "appId": "org.simulatedgreg.electron-vue",
+    "directories": {
+      "output": "build"
+    },
+    "files": [
+      "dist/electron/**/*"
+    ],
+    "extraResources": [
+      "src/download",
+      "src/forms",
+      "src/server",
+      "static/assets/img"
+    ],
+    "dmg": {
+      "contents": [
+        {
+          "x": 410,
+          "y": 150,
+          "type": "link",
+          "path": "/Applications"
+        },
+        {
+          "x": 130,
+          "y": 150,
+          "type": "file"
+        }
+      ]
+    },
+    "mac": {
+      "icon": "build/icons/icon.icns",
+      "target": "tar.gz"
+    },
+    "win": {
+      "icon": "build/icons/icon.ico",
+      "target": "portable"
+    },
+    "linux": {
+      "icon": "build/icons"
+    }
+  },
+  "dependencies": {
+    "axios": "^0.16.1",
+    "babel-preset-es2015": "^6.24.1",
+    "babel-runtime": "^6.26.0",
+    "bcryptjs": "^2.4.3",
+    "electron-dl": "^1.10.0",
+    "electron-html-to": "^2.6.0",
+    "electron-log": "^2.2.9",
+    "html2canvas": "^0.5.0-beta4",
+    "html2pdf": "^0.0.11",
+    "html5-to-pdf": "^2.2.9",
+    "internet-available": "^1.0.0",
+    "is-online": "^7.0.0",
+    "jquery": "^3.2.1",
+    "jspdf": "^1.3.5",
+    "jsreport-core": "^1.4.0",
+    "jsreport-electron-pdf": "^2.7.1",
+    "malihu-custom-scrollbar-plugin": "^3.1.5",
+    "nightmare": "^2.10.0",
+    "pdfjs-dist": "^1.10.86",
+    "sqlite3": "^3.1.11",
+    "uuid": "^3.1.0",
+    "vee-validate": "^2.0.0-rc.17",
+    "vue": "^2.3.3",
+    "vue-date": "^1.1.7",
+    "vue-electron": "^1.0.6",
+    "vue-json-excel": "^0.0.7",
+    "vue-moment": "^2.0.2",
+    "vue-numeric": "^2.2.9",
+    "vue-online": "^1.1.9",
+    "vue-router": "^2.5.3",
+    "vue-spinner": "^1.0.3",
+    "vue2-selectize": "^1.1.4",
+    "vuex": "^2.3.1",
+    "wkhtmltopdf": "^0.3.4",
+    "wkhtmltopdf-installer": "^0.3.1",
+    "xlsx": "^0.11.16"
+  },
+  "devDependencies": {
+    "babel-core": "^6.26.0",
+    "babel-loader": "^7.1.1",
+    "babel-plugin-transform-runtime": "^6.23.0",
+    "babel-preset-env": "^1.6.0",
+    "babel-preset-stage-0": "^6.24.1",
+    "babel-register": "^6.24.1",
+    "babili-webpack-plugin": "^0.1.2",
+    "cfonts": "^1.1.3",
+    "chalk": "^2.1.0",
+    "copy-webpack-plugin": "^4.0.1",
+    "cross-env": "^5.0.5",
+    "css-loader": "^0.28.4",
+    "del": "^3.0.0",
+    "devtron": "^1.4.0",
+    "electron": "^1.7.5",
+    "electron-builder": "19.38.0",
+    "electron-debug": "^1.4.0",
+    "electron-devtools-installer": "^2.2.0",
+    "extract-text-webpack-plugin": "^3.0.0",
+    "file-loader": "^0.11.2",
+    "html-webpack-plugin": "^2.30.1",
+    "multispinner": "^0.2.1",
+    "node-loader": "^0.6.0",
+    "style-loader": "^0.18.2",
+    "url-loader": "^0.5.9",
+    "vue-html-loader": "^1.2.4",
+    "vue-loader": "^12.2.2",
+    "vue-style-loader": "^3.0.1",
+    "vue-template-compiler": "^2.4.2",
+    "webpack": "^3.5.2",
+    "webpack-dev-server": "^2.7.1",
+    "webpack-hot-middleware": "^2.18.2"
+  }
+}

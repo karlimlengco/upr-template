@@ -1,0 +1,502 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <link rel="stylesheet" href="{{base_path('fonts/Nunito_Sans/css/nunitosans.css')}}">
+        <link rel="stylesheet" href="{{base_path('public/css/main.css')}}">
+
+
+        <style type="text/css">
+
+          /*
+          printable-form.less
+          ------------------------------------------------------------------------- */
+          .printable-form-wrapper {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+          }
+          /* default for 'a4' bond paper prints */
+          .printable-form {
+            display: block;
+            position: relative;
+            /*width: 8.3in;
+            height: 13in;
+            max-height: 13in;
+            min-height: 13in;*/
+            padding: 0 15px;
+            margin: 30px 0;
+            border: solid 1px transparent;
+            /* main form header area */
+            /* main form letterhead */
+            /* main form content area */
+            /* main form footer area */
+          }
+          .printable-form * {
+            font-family: 'Arial' !important;
+            font-size: 13px !important;
+            font-weight: 400;
+            color: #545454;
+          }
+          .printable-form * strong {
+            font-family: 'Arial';
+            font-weight: 700;
+            color: #2e2e2e;
+          }
+          .printable-form__head {
+            position: absolute;
+            top: 10px;
+            left: 0;
+            right: 0;
+            width: 100%;
+            padding: 0 15px;
+          }
+          .printable-form__head__vision {
+            display: block;
+            width: 100%;
+            text-align: center;
+            padding: 0;
+            margin: 0;
+            font-style: italic;
+          }
+          .printable-form__letterhead {
+            display: block;
+            width: 100%;
+            margin-top: 60px;
+            margin-bottom: 25px;
+            text-align: center;
+          }
+          .printable-form__letterhead__logo {
+            height: 75px;
+            width: 75px;
+          }
+          .printable-form__letterhead__details {
+            display: block;
+            font-weight: 400;
+            margin-top: 10px;
+          }
+          .printable-form__letterhead__details.inside {
+            text-align: center;
+            margin-top: 0;
+            margin-bottom: 30px;
+          }
+          .printable-form__body {
+            display: block;
+            width: 100%;
+            margin-top: 60px;
+          }
+          .printable-form__body.no-letterhead {
+            margin-top: 80px;
+          }
+          .printable-form__body.boxed {
+            margin-top: 60px;
+            border: solid 1px #cccccc;
+          }
+          .printable-form__body.boxed .printable-form__letterhead {
+            margin-top: 30px;
+          }
+          .printable-form__body.boxed .printable-form__body__table {
+            margin-bottom: 0;
+          }
+          .printable-form__body table,
+          .printable-form__body p,
+          .printable-form__body ol,
+          .printable-form__body ul {
+            margin-bottom: 20px;
+          }
+          .printable-form__body table.indent,
+          .printable-form__body p.indent,
+          .printable-form__body ol.indent,
+          .printable-form__body ul.indent {
+            padding-left: 50px;
+          }
+          .printable-form__body table.indent-first-line,
+          .printable-form__body p.indent-first-line,
+          .printable-form__body ol.indent-first-line,
+          .printable-form__body ul.indent-first-line {
+            text-indent: 50px;
+          }
+          .printable-form__body__title {
+            font-size: 12px;
+            font-weight: 700;
+            text-transform: uppercase;
+            text-align: center;
+            margin-bottom: 20px;
+            display: block;
+            width: 100%;
+            color: #2e2e2e;
+          }
+          .printable-form__body__subtitle {
+            text-align: center;
+            margin-bottom: 20px;
+            display: block;
+            width: 100%;
+          }
+          .printable-form__body__table {
+            width: 100%;
+            table-layout: auto;
+            border-collapse: collapse;
+          }
+          .printable-form__body__table.no-border {
+            border: none;
+          }
+          .printable-form__body__table.no-border tr td {
+            border: none;
+            padding: 4px 0;
+          }
+          .printable-form__body__table.no-padding tr td {
+            padding: 0;
+          }
+          .printable-form__body__table.no-space {
+            margin: 0;
+            padding: 0;
+          }
+          .printable-form__body__table tr td {
+            font-size: 10px;
+            font-weight: 400;
+            padding: 4px;
+            vertical-align: top;
+            text-align: left;
+            border: solid 1px #adadad;
+          }
+          .printable-form__body__table tr td .signatory {
+            margin: 0;
+          }
+          .printable-form__body__table tr td .signatory.no-border {
+            border: none;
+          }
+          .printable-form__body__table tr td .signatory.no-border tr td {
+            border: none;
+            padding: 4px 0;
+          }
+          .printable-form__body__table tr td .signatory.no-padding tr td {
+            padding: 0;
+          }
+          .printable-form__body__table tr td .signatory .signatory-rank-justify {
+            text-align: justify;
+            margin: 0;
+            padding: 0;
+            height: 12px;
+            line-height: 1;
+          }
+          .printable-form__body__table tr td .signatory .signatory-rank-justify span {
+            display: inline-block;
+            width: 100%;
+            height: 1px;
+          }
+          .printable-form__body__table tr td.border-top-only {
+            border-top: solid 1px #adadad;
+            border-left: none;
+            border-right: none;
+            border-bottom: none;
+          }
+          .printable-form__body__table tr td.border-right-only {
+            border-right: solid 1px #adadad;
+            border-left: none;
+            border-bottom: none;
+            border-top: none;
+          }
+          .printable-form__body__table tr td.border-bottom-only {
+            border-bottom: solid 1px #adadad;
+            border-left: none;
+            border-right: none;
+            border-top: none;
+          }
+          .printable-form__body__table tr td.border-left-only {
+            border-left: solid 1px #adadad;
+            border-right: none;
+            border-bottom: none;
+            border-top: none;
+          }
+          .printable-form__body__table tr td.no-border {
+            border: none !important;
+          }
+          .printable-form__body__table tr td.no-border-top {
+            border-top: none !important;
+          }
+          .printable-form__body__table tr td.no-border-right {
+            border-right: none !important;
+          }
+          .printable-form__body__table tr td.no-border-bottom {
+            border-bottom: none !important;
+          }
+          .printable-form__body__table tr td.no-border-left {
+            border-left: none !important;
+          }
+          .printable-form__body__table tr td.align-left {
+            text-align: left !important;
+          }
+          .printable-form__body__table tr td.align-center {
+            text-align: center !important;
+          }
+          .printable-form__body__table tr td.align-right {
+            text-align: right !important;
+          }
+          .printable-form__body__table tr td.align-justify {
+            text-align: justify !important;
+          }
+          .printable-form__body__table tr td.align-middle {
+            vertical-align: middle !important;
+          }
+          .printable-form__body__table tr td.align-bottom {
+            vertical-align: bottom !important;
+          }
+          .printable-form__body__table tr td.align-top {
+            vertical-align: top !important;
+          }
+          .printable-form__body__table tr td.fix-border {
+            border-bottom: none !important;
+          }
+          .printable-form__body__table tr td.no-padding {
+            padding: 0 4px !important;
+          }
+          .printable-form__foot {
+            position: absolute;
+            bottom: 10px;
+            left: 0;
+            right: 0;
+            width: 100%;
+          }
+          .printable-form__foot__table {
+            width: 100%;
+            border-collapse: collapse;
+          }
+          .printable-form__foot__table tr td {
+            width: 50%;
+            padding: 0 15px;
+          }
+          .printable-form__foot__values {
+            display: block;
+            width: 100%;
+            text-align: center;
+            padding: 0;
+            margin: 0 0 20px 0;
+            font-style: italic;
+          }
+          .printable-form__foot__ref {
+            display: block;
+            width: 100%;
+            font-size: 10px;
+            font-weight: 400;
+            text-align: left;
+            font-style: italic;
+          }
+          .printable-form__foot__code {
+            display: block;
+            height: 20px;
+            text-align: right;
+          }
+          .printable-form__foot__code img {
+            height: 100%;
+          }
+        </style>
+    </head>
+
+    <body>
+
+      <div class="printable-form">
+
+          <!-- form header -->
+          <div class="printable-form__head">
+              <p class="printable-form__head__vision">AFP Vision 2028: A World-class Armed Forces, Source of National Pride</p>
+          </div>
+          <!-- form body -->
+          <div class="printable-form__body boxed">
+              <!-- letterhead -->
+              <div class="printable-form__letterhead">
+                  <span class="printable-form__letterhead__details">
+                      {{headers}}
+                  </span>
+              </div>
+              <!-- title -->
+              <span class="printable-form__body__title">PURCHASE ORDER/WORK ORDER/JOB ORDER</span>
+              <!-- content -->
+              <table class="printable-form__body__table">
+                  <tr>
+                      <td class="no-border-bottom" colspan="4"></td>
+                  </tr>
+                  <tr>
+                      <td class="border-left-only" width="80px" nowrap>Supplier</td>
+                      <td class="no-border" width="50%"><strong>{{supplier_name}}</strong></td>
+                      <td class="no-border" width="80px" nowrap>P.O. No.</td>
+                      <td class="border-right-only" width="30%"><strong>{{po_number}}</strong></td>
+                  </tr>
+                  <tr>
+                      <td class="border-left-only" nowrap>Address</td>
+                      <td class="no-border"><strong>{{supplier_address}}</strong></td>
+                      <td class="no-border" nowrap>Date</td>
+                      <td class="border-right-only"><strong>{{purchase_date}}</strong></td>
+                  </tr>
+                  <tr>
+                      <td class="border-left-only" nowrap>Email Address</td>
+                      <td class="no-border"><strong>{{supplier_email_1}}</strong></td>
+                      <td class="no-border" nowrap>Proc Mode</td>
+                      <td class="border-right-only"><strong>{{mode}}</strong></td>
+                  </tr>
+                  <tr>
+                      <td class="border-left-only" nowrap>Telephone No</td>
+                      <td class="no-border"><strong>{{supplier_phone_1}}</strong></td>
+                      <td class="no-border" nowrap></td>
+                      <td class="border-right-only"><strong></strong></td>
+                  </tr>
+                  <tr>
+                      <td class="border-left-only" nowrap>TIN</td>
+                      <td class="border-right-only" colspan="3"><strong>{{supplier_tin}}</strong></td>
+                  </tr>
+                  <tr>
+                      <td class="no-border-top no-border-bottom" colspan="4"></td>
+                  </tr>
+                  <tr>
+                      <td colspan="4">
+                          Sir/Madam,<br>Please furnish this office the following articles subject to the terms and conditions contained herein:
+                      </td>
+                  </tr>
+                  <tr>
+                      <td class="no-border-top no-border-bottom" colspan="4"></td>
+                  </tr>
+                  <tr>
+                      <td class="border-left-only" nowrap>Place of Delivery</td>
+                      <td class="no-border"><strong>{{unit}}</strong></td>
+                      <td class="no-border" nowrap>Delivery Schedule</td>
+                      <td class="border-right-only"><strong>{{delivery}}</strong></td>
+                  </tr>
+                  <tr>
+                      <td class="border-left-only" nowrap>Delivery Term</td>
+                      <td class="no-border"><strong>{{delivery_term}} Calendar Days upon conformed of this PURCHASE ORDER</strong></td>
+                      <td class="no-border" nowrap>Payment Term</td>
+                      <td class="border-right-only"><strong>{{term}}</strong></td>
+                  </tr>
+                  <tr>
+                      <td class="no-border-top no-border-bottom" colspan="4"></td>
+                  </tr>
+              </table>
+              <table class="printable-form__body__table">
+                  <tr>
+                      <td class="align-center" width="10%"><strong>ITEM NO</strong></td>
+                      <td class="align-center" width="10%"><strong>UOM</strong></td>
+                      <td class="align-center" width="40%"><strong>DESCRPTION</strong></td>
+                      <td class="align-center" width="10%"><strong>QTY</strong></td>
+                      <td class="align-center" width="15%"><strong>UNIT COST</strong></td>
+                      <td class="align-center" width="15%"><strong>AMOUNT</strong></td>
+                  </tr>
+
+                  {{items}}
+                  <tr>
+                      <td class="align-center" colspan="4"><strong style="text-transform:uppercase">{{total_amount_word}}PESOS ONLY.</strong></td>
+                      <td colspan="2" class="align-right"><strong>{{total_amount}}</strong></td>
+                  </tr>
+                  <tr>
+                      <td colspan="6">
+                          BASIS: {{purpose}}<br>
+                          REFERENCES: UPR No. {{upr_number}}
+                      </td>
+                  </tr>
+                  <tr>
+                      <td class="align-top no-border-bottom" colspan="6" height="40px">In case of failure to make the full delivery within the time specified above, a penalty of one-tenth (1/10) of one percent (1%) for every day of delay shall be imposed.</td>
+                  </tr>
+              </table>
+              <table class="printable-form__body__table">
+                  <tr>
+                      <td class="border-left-only" width="45%"></td>
+                      <td class="no-border" width="10%"></td>
+                      <td class="border-right-only" width="45%">
+                          Very truly yours,
+                          <br>
+                          <strong class="margin-top">{{approver_ranks}} {{approver_name}} {{approver_branch}}</strong>
+                          <br>
+                          {{approver_designation}}
+                      </td>
+                  </tr>
+              </table>
+              <table class="printable-form__body__table">
+                  <tr>
+                      <td class="border-left-only" width="9%" height="30px"></td>
+                      <td class="no-border" width="1%" height="40px">Conforme:</td>
+                      <td class="border-bottom-only" width="40%" height="30px"></td>
+                      <td class="border-right-only" width="50%" height="30px"></td>
+                  </tr>
+                  <tr>
+                      <td class="border-left-only" colspan="2" height="30px"></td>
+                      <td class="align-center no-padding border-bottom-only" height="30px">Signature over printed name of Supplier</td>
+                      <td class="border-right-only" height="30px"></td>
+                  </tr>
+                  <tr>
+                      <td class="border-left-only" colspan="2"></td>
+                      <td class="align-center no-padding no-border">Date</td>
+                      <td class="border-right-only"></td>
+                  </tr>
+                  <tr>
+                      <td class="no-border-top" colspan="4"></td>
+                  </tr>
+              </table>
+              <table class="printable-form__body__table">
+                  <tr>
+                      <td class="border-left-only" width="13%" height="30px">Funds Available:</td>
+                      <td class="no-border" width="1%"></td>
+                      <td class="no-border" width="40%"></td>
+                      <td class="no-border" width="15%"></td>
+                      <td class="no-border" width="1%"></td>
+                      <td class="no-border" width="20%"></td>
+                      <td class="border-right-only" width="10%"></td>
+                  </tr>
+                  <tr>
+                      <td class="no-padding border-left-only"></td>
+                      <td class="no-padding no-border" colspan="2"><strong>{{accounting_ranks}} {{accounting_name}}, {{accounting_branch}}</strong></td>
+                      <td class="no-padding no-border"></td>
+                      <td class="no-padding no-border" nowrap>OBR/BUR No</td>
+                      <td class="no-padding border-bottom-only"></td>
+                      <td class="no-padding border-right-only"></td>
+                  </tr>
+                  <tr>
+                      <td class="no-padding border-left-only"></td>
+                      <td class="no-padding no-border" colspan="2">{{accounting_designation}}</td>
+                      <td class="no-padding no-border"></td>
+                      <td class="no-padding no-border"></td>
+                      <td class="no-padding no-border"></td>
+                      <td class="no-padding border-right-only"></td>
+                  </tr>
+                  <tr>
+                      <td class="no-padding border-left-only"></td>
+                      <td class="no-padding no-border">Date</td>
+                      <td class="no-padding border-bottom-only"></td>
+                      <td class="no-padding no-border"></td>
+                      <td class="no-padding no-border" nowrap>Amount</td>
+                      <td class="no-padding border-bottom-only"></td>
+                      <td class="no-padding border-right-only"></td>
+                  </tr>
+                  <tr>
+                      <td class="no-border-top" colspan="7" height="20px"></td>
+                  </tr>
+              </table>
+              <table class="printable-form__body__table">
+                  <tr>
+                      <td class="border-left-only" width="12%" height="30px">Approved By:</td>
+                      <td class="no-border" width="40%"></td>
+                      <td class="no-border" width="19%"></td>
+                      <td class="no-border" width="1%"></td>
+                      <td class="no-border" width="20%"></td>
+                      <td class="border-right-only" width="8%"></td>
+                  </tr>
+                  <tr>
+                      <td class="no-padding border-left-only"></td>
+                      <td class="no-padding no-border"><strong>{{coa_ranks}} {{coa_name}}, {{coa_branch}}</strong></td>
+                      <td class="no-padding no-border"></td>
+                      <td class="no-padding no-border" nowrap>Date</td>
+                      <td class="no-padding border-bottom-only"></td>
+                      <td class="no-padding border-right-only"></td>
+                  </tr>
+                  <tr>
+                      <td class="no-padding border-left-only"></td>
+                      <td class="no-padding no-border">{{coa_designation}}</td>
+                      <td class="no-padding no-border"></td>
+                      <td class="no-padding no-border"></td>
+                      <td class="no-padding no-border"></td>
+                      <td class="no-padding border-right-only"></td>
+                  </tr>
+                  <tr>
+                      <td class="no-border-top no-border-bottom" colspan="6" height="15px"></td>
+                  </tr>
+              </table>
+          </div>
+      </div>
+    </body>
+</html>

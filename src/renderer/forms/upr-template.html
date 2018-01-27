@@ -1,0 +1,491 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Document</title>
+  <link rel="stylesheet" href="static/assets/css/main.css">
+  <style type="text/css">
+
+    /*
+    printable-form.less
+    ------------------------------------------------------------------------- */
+    .printable-form-wrapper {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    /* default for 'a4' bond paper prints */
+    .printable-form {
+      display: block;
+      position: relative;
+      /*width: 8.3in;
+      height: 13in;
+      max-height: 13in;
+      min-height: 13in;*/
+      padding: 0 15px;
+      margin: 30px 0;
+      border: solid 1px transparent;
+      /* main form header area */
+      /* main form letterhead */
+      /* main form content area */
+      /* main form footer area */
+    }
+    .printable-form * {
+      font-family: 'Arial' !important;
+      font-size: 13px !important;
+      font-weight: 400;
+      color: #545454;
+    }
+    .printable-form * strong {
+      font-family: 'Arial';
+      font-weight: 700;
+      color: #2e2e2e;
+    }
+    .printable-form__head {
+      position: absolute;
+      top: 10px;
+      left: 0;
+      right: 0;
+      width: 100%;
+      padding: 0 15px;
+    }
+    .printable-form__head__vision {
+      display: block;
+      width: 100%;
+      text-align: center;
+      padding: 0;
+      margin: 0;
+      font-style: italic;
+    }
+    .printable-form__letterhead {
+      display: block;
+      width: 100%;
+      margin-top: 60px;
+      margin-bottom: 25px;
+      text-align: center;
+    }
+    .printable-form__letterhead__logo {
+      height: 75px;
+      width: 75px;
+    }
+    .printable-form__letterhead__details {
+      display: block;
+      font-weight: 400;
+      margin-top: 10px;
+    }
+    .printable-form__letterhead__details.inside {
+      text-align: center;
+      margin-top: 0;
+      margin-bottom: 30px;
+    }
+    .printable-form__body {
+      display: block;
+      width: 100%;
+      margin-top: 60px;
+    }
+    .printable-form__body.no-letterhead {
+      margin-top: 80px;
+    }
+    .printable-form__body.boxed {
+      margin-top: 60px;
+      border: solid 1px #cccccc;
+    }
+    .printable-form__body.boxed .printable-form__letterhead {
+      margin-top: 30px;
+    }
+    .printable-form__body.boxed .printable-form__body__table {
+      margin-bottom: 0;
+    }
+    .printable-form__body table,
+    .printable-form__body p,
+    .printable-form__body ol,
+    .printable-form__body ul {
+      margin-bottom: 20px;
+    }
+    .printable-form__body table.indent,
+    .printable-form__body p.indent,
+    .printable-form__body ol.indent,
+    .printable-form__body ul.indent {
+      padding-left: 50px;
+    }
+    .printable-form__body table.indent-first-line,
+    .printable-form__body p.indent-first-line,
+    .printable-form__body ol.indent-first-line,
+    .printable-form__body ul.indent-first-line {
+      text-indent: 50px;
+    }
+    .printable-form__body__title {
+      font-size: 12px;
+      font-weight: 700;
+      text-transform: uppercase;
+      text-align: center;
+      margin-bottom: 20px;
+      display: block;
+      width: 100%;
+      color: #2e2e2e;
+    }
+    .printable-form__body__subtitle {
+      text-align: center;
+      margin-bottom: 20px;
+      display: block;
+      width: 100%;
+    }
+    .printable-form__body__table {
+      width: 100%;
+      table-layout: auto;
+      border-collapse: collapse;
+    }
+    .printable-form__body__table.no-border {
+      border: none;
+    }
+    .printable-form__body__table.no-border tr td {
+      border: none;
+      padding: 4px 0;
+    }
+    .printable-form__body__table.no-padding tr td {
+      padding: 0;
+    }
+    .printable-form__body__table.no-space {
+      margin: 0;
+      padding: 0;
+    }
+    .printable-form__body__table tr td {
+      font-size: 10px;
+      font-weight: 400;
+      padding: 4px;
+      vertical-align: top;
+      text-align: left;
+      border: solid 1px #adadad;
+    }
+    .printable-form__body__table tr td .signatory {
+      margin: 0;
+    }
+    .printable-form__body__table tr td .signatory.no-border {
+      border: none;
+    }
+    .printable-form__body__table tr td .signatory.no-border tr td {
+      border: none;
+      padding: 4px 0;
+    }
+    .printable-form__body__table tr td .signatory.no-padding tr td {
+      padding: 0;
+    }
+    .printable-form__body__table tr td .signatory .signatory-rank-justify {
+      text-align: justify;
+      margin: 0;
+      padding: 0;
+      height: 12px;
+      line-height: 1;
+    }
+    .printable-form__body__table tr td .signatory .signatory-rank-justify span {
+      display: inline-block;
+      width: 100%;
+      height: 1px;
+    }
+    .printable-form__body__table tr td.border-top-only {
+      border-top: solid 1px #adadad;
+      border-left: none;
+      border-right: none;
+      border-bottom: none;
+    }
+    .printable-form__body__table tr td.border-right-only {
+      border-right: solid 1px #adadad;
+      border-left: none;
+      border-bottom: none;
+      border-top: none;
+    }
+    .printable-form__body__table tr td.border-bottom-only {
+      border-bottom: solid 1px #adadad;
+      border-left: none;
+      border-right: none;
+      border-top: none;
+    }
+    .printable-form__body__table tr td.border-left-only {
+      border-left: solid 1px #adadad;
+      border-right: none;
+      border-bottom: none;
+      border-top: none;
+    }
+    .printable-form__body__table tr td.no-border {
+      border: none !important;
+    }
+    .printable-form__body__table tr td.no-border-top {
+      border-top: none !important;
+    }
+    .printable-form__body__table tr td.no-border-right {
+      border-right: none !important;
+    }
+    .printable-form__body__table tr td.no-border-bottom {
+      border-bottom: none !important;
+    }
+    .printable-form__body__table tr td.no-border-left {
+      border-left: none !important;
+    }
+    .printable-form__body__table tr td.align-left {
+      text-align: left !important;
+    }
+    .printable-form__body__table tr td.align-center {
+      text-align: center !important;
+    }
+    .printable-form__body__table tr td.align-right {
+      text-align: right !important;
+    }
+    .printable-form__body__table tr td.align-justify {
+      text-align: justify !important;
+    }
+    .printable-form__body__table tr td.align-middle {
+      vertical-align: middle !important;
+    }
+    .printable-form__body__table tr td.align-bottom {
+      vertical-align: bottom !important;
+    }
+    .printable-form__body__table tr td.align-top {
+      vertical-align: top !important;
+    }
+    .printable-form__body__table tr td.fix-border {
+      border-bottom: none !important;
+    }
+    .printable-form__body__table tr td.no-padding {
+      padding: 0 4px !important;
+    }
+    .printable-form__foot {
+      position: absolute;
+      bottom: 10px;
+      left: 0;
+      right: 0;
+      width: 100%;
+    }
+    .printable-form__foot__table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+    .printable-form__foot__table tr td {
+      width: 50%;
+      padding: 0 15px;
+    }
+    .printable-form__foot__values {
+      display: block;
+      width: 100%;
+      text-align: center;
+      padding: 0;
+      margin: 0 0 20px 0;
+      font-style: italic;
+    }
+    .printable-form__foot__ref {
+      display: block;
+      width: 100%;
+      font-size: 10px;
+      font-weight: 400;
+      text-align: left;
+      font-style: italic;
+    }
+    .printable-form__foot__code {
+      display: block;
+      height: 20px;
+      text-align: right;
+    }
+    .printable-form__foot__code img {
+      height: 100%;
+    }
+  </style>
+</head>
+<body>
+
+    <div class="printable-form-wrapper">
+        <!-- third-upr.xps -->
+        <div class="printable-form">
+            <!-- form header -->
+
+            <div class="printable-form__head">
+                <p class="printable-form__head__vision">AFP Vision 2028: A World-class Armed Forces, Source of National Pride</p>
+            </div>
+            <!-- form content -->
+
+            <div class="printable-form__body boxed">
+                <!-- letterhead -->
+                <div class="printable-form__letterhead">
+                    <span class="printable-form__letterhead__details">
+                        {{headers}}
+                    </span>
+                </div>
+                <!-- content -->
+                <table class="printable-form__body__table">
+                    <tr>
+                        <td class="align-center" colspan="3" width="65%"><strong>UNIT PURCHASE REQUEST</strong></td>
+                        <td class="no-border-bottom" width="35%">UPR NO:</td>
+                    </tr>
+                    <tr>
+                        <td class="border-left-only" colspan="3"></td>
+                        <td class="align-center align-middle no-border-top" rowspan="2">{{upr_number}}</td>
+                    </tr>
+                    <tr>
+                        <td class="border-left-only" width="200px" nowrap>PLACE OF DELIVERY</td>
+                        <td class="border-bottom-only" width="300px">{{place_of_delivery}}</td>
+                        <td class="border-right-only" width="10%"></td>
+                    </tr>
+                    <tr>
+                        <td class="border-left-only" width="200px" nowrap>MODE OF PROCUREMENT</td>
+                        <td class="border-bottom-only" width="300px">{{modes}}</td>
+                        <td class="border-right-only" width="10%"></td>
+                        <td class="no-border-bottom">AFPPS REF NO:</td>
+                    </tr>
+                    <tr>
+                        <td class="border-left-only" width="200px" nowrap>CHARGEABILITY</td>
+                        <td class="border-bottom-only" width="300px">{{charge}}</td>
+                        <td class="border-right-only" width="10%"></td>
+                        <td class="align-center align-middle no-border-top" rowspan="2">{{ref_number}}</td>
+                    </tr>
+                    <tr>
+                        <td class="border-left-only" width="150px" nowrap>ACCOUNT CODE</td>
+                        <td class="border-bottom-only" width="300px">
+                          {{account_codes}}
+                        </td>
+                        <td class="no-border-bottom no-border-left no-border-right" width="350px"></td>
+                        <td class="border-right-only" width="10%"></td>
+                    </tr>
+                    <tr>
+                        <td class="border-left-only" width="200px" nowrap>FUND VALIDITY</td>
+                        <td class="border-bottom-only" width="300px">{{fund_validity}}</td>
+                        <td class="border-right-only" width="10%"></td>
+                        <td class="no-border-bottom">Date Prepared:</td>
+                    </tr>
+                    <tr>
+                        <td class="border-left-only" width="200px" nowrap>TERMS OF PAYMENT</td>
+                        <td class="border-bottom-only" width="300px">{{terms}}</td>
+                        <td class="border-right-only" width="10%"></td>
+                        <td class="align-center align-middle no-border-top" rowspan="3">{{date_prepared}}</td>
+                    </tr>
+                    <tr>
+                        <td class="border-left-only" width="200px" nowrap>OTHER ESSENTIAL INFO</td>
+                        <td class="border-bottom-only" width="350px">{{other_infos}}</td>
+                        <td class="border-right-only" width="10%"></td>
+                    </tr>
+                    <tr>
+                        <td class="no-border-top no-border-right" colspan="3"></td>
+                    </tr>
+                </table>
+                <table class="printable-form__body__table">
+                    <tr>
+                        <td class="no-border-top align-center" width="5%"><strong>ITEM NO</strong></td>
+                        <td class="no-border-top align-center" width="35%"><strong>ITEM DESCRIPTION</strong></td>
+                        <td class="no-border-top align-center" width="5%"><strong>QTY</strong></td>
+                        <td class="no-border-top align-center" width="10%"><strong>UNIT</strong></td>
+                        <td class="no-border-top align-center" width="15%"><strong>UNIT PRICE</strong></td>
+                        <td class="no-border-top align-center" width="15%"><strong>AMOUNT</strong></td>
+                    </tr>
+                        {{items}}
+                    <!--     <tr>
+                            <td class="align-center">{{$key + 1}}</td>
+                            <td class="align-left">{{$item->item_description}}</td>
+                            <td class="align-center">{{$item->quantity}}</td>
+                            <td class="align-center">{{$item->unit_measurement}}</td>
+                            <td class="align-right">{{formatPrice($item->unit_price)}}</td>
+                            <td class="align-right">{{formatPrice($item->total_amount)}}</td>
+                        </tr> --> 
+                    <tr>
+                        <td colspan="6">{{purpose}}</td>
+                    </tr>
+                    <tr>
+                        <td class="align-right" colspan="5"><strong>Total Amount PhP</strong></td>
+                        <td colspan="1" class="align-right"> <strong>{{total_amount}}</strong></td>
+                    </tr>
+                    <tr>
+                        <td class="align-center" colspan="6"><strong>NOTE: ALL SIGNATURES MUST BE OVER PRINTED NAME</strong></td>
+                    </tr>
+                </table>
+
+
+                <table class="printable-form__body__table" >
+                    <tr>
+                        <td class="no-border-bottom no-border-top" width="33%">STOCKS REQUESTED ARE CERTIFIED TO BE WITHIN APPROVED APP/PPMP</td>
+                        <td class="no-border-bottom no-border-top" width="33%">FUNDS CERTIFIED AVAILABLE:</td>
+                        <td class="no-border-bottom no-border-top" width="33%">APPROVED:</td>
+                    </tr>
+                    <tr >
+                        <td class="align-bottom no-border-top" height="100px">
+                            <table class="signatory no-padding no-border" style="margin:0;padding:0">
+                                <tr>
+                                    <td width="50%"></td>
+                                    <td nowrap><strong>{{requestor_name}}</strong></td>
+                                    <td width="50%"></td>
+                                </tr>
+                                <tr>
+                                    <td></td>
+                                    <td>
+                                        <div class="signatory-rank-justify">
+                                            <strong>{{requestor_ranks}} {{requestor_branch}}</strong>
+                                            <span></span>
+                                        </div>
+                                    </td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td colspan="3" style="border-bottom:1px solid #adadad"></td>
+                                </tr>
+                                <tr >
+                                    <td ></td>
+                                    <td class="align-left" colspan="2" >{{requestor_designation}}</td>
+                                </tr>
+                            </table>
+                        </td>
+                        <td class="align-bottom no-border-top" height="100px">
+                            <table class="signatory no-padding no-border">
+                                <tr>
+                                    <td width="50%"></td>
+                                    <td nowrap><strong>{{funder_name}}</strong></td>
+                                    <td width="50%"></td>
+                                </tr>
+                                <tr>
+                                    <td></td>
+                                    <td>
+                                        <div class="signatory-rank-justify">
+                                            <strong>{{funder_ranks}} {{funder_branch}}</strong>
+                                            <span></span>
+                                        </div>
+                                    </td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td colspan="3" style="border-bottom:1px solid #adadad"></td>
+                                </tr>
+                                <tr>
+                                    <td ></td>
+                                    <td class="align-left" colspan="2">{{funder_designation}}</td>
+                                </tr>
+                            </table>
+                        </td>
+                        <td class="align-bottom no-border-top" height="100px">
+                            <table class="signatory no-padding no-border">
+                                <tr>
+                                    <td width="50%"></td>
+                                    <td nowrap><strong>{{approver_name}}</strong></td>
+                                    <td width="50%"></td>
+                                </tr>
+                                <tr>
+                                    <td></td>
+                                    <td>
+                                        <div class="signatory-rank-justify">
+                                            <strong>{{approver_ranks}} {{approver_branch}}</strong>
+                                            <span></span>
+                                        </div>
+                                    </td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td colspan="3" style="border-bottom:1px solid #adadad"></td>
+                                </tr>
+                                <tr>
+                                    <td ></td>
+                                    <td class="align-left" colspan="2">{{approver_designation}}</td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+
+        </div>
+
+    </div>
+</body>
+</html>
