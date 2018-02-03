@@ -30,7 +30,7 @@ function createWindow () {
   })
 
   mainWindow.loadURL(winURL)
-  // mainWindow.openDevTools()
+  mainWindow.openDevTools()
 
   mainWindow.on('closed', () => {
     mainWindow = null
@@ -122,7 +122,7 @@ autoUpdater.on('update-downloaded', () => {
 
 app.on('ready', () => {
   if (process.env.NODE_ENV === 'production') { autoUpdater.checkForUpdates() }
-  autoUpdater.checkForUpdates();
+  // autoUpdater.checkForUpdates();
   createWindow();
 })
 
