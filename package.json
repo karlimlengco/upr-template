@@ -13,7 +13,7 @@
     "provider": "github"
   },
   "scripts": {
-    "release": "yarn build",
+    "release": "yarn run build:dir",
     "build": "node .electron-vue/build.js && electron-builder",
     "build:dir": "node .electron-vue/build.js && electron-builder --dir",
     "build:clean": "cross-env BUILD_TARGET=clean node .electron-vue/build.js",
