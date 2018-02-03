@@ -15,7 +15,7 @@
         <button class ="button">SYNC</button>
       </form>
       <form action="" class="login-form" v-on:submit="signin">
-        <button class ="button">ENTER</button>
+        <button class ="button">ENTERs</button>
       </form>
       <p class="version">Version 1.1.0</p>
     </div>
