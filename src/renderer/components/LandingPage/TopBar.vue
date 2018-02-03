@@ -46,7 +46,6 @@
 <script>
   import router from '../../router'
   import { mapGetters, mapActions } from 'vuex'
-  const isOnline = require('is-online');
   import Connectivity from './../Connectivity'
 
   export default {

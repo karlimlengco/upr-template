@@ -90,6 +90,42 @@ app.on('ready', () => {
 //   console.log(onlineStatusWindow)
 // })
 
+
+import { autoUpdater } from 'electron-updater'
+
+autoUpdater.logger = require("electron-log");
+autoUpdater.logger.transports.file.level = "info";
+
+autoUpdater.on('update-downloaded', () => {
+  console.log('update-downloaded lats quitAndInstall');
+
+  if (process.env.NODE_ENV === 'production') { 
+    dialog.showMessageBox({
+      type: 'info',
+      title: 'Found Updates',
+      message: 'Found updates, do you want update now?',
+      buttons: ['Sure', 'No']
+    }, (buttonIndex) => {
+      if (buttonIndex === 0) {
+        const isSilent = true;
+        const isForceRunAfter = true; 
+        autoUpdater.quitAndInstall(isSilent, isForceRunAfter); 
+      } 
+      else {
+        updater.enabled = true
+        updater = null
+      }
+    })
+  }
+  
+})
+
+app.on('ready', () => {
+  if (process.env.NODE_ENV === 'production') { autoUpdater.checkForUpdates() }
+  autoUpdater.checkForUpdates();
+  createWindow();
+})
+
 /**
  * Auto Updater
  *

@@ -158,27 +158,29 @@
         <div class="row">
           <div class="twelve columns align-right utility utility--align-right"> 
             <a
+              v-if="uprs.id"
               target="_blank"
               @click.prevent="PrintUPR(uprs, uprItems)"
               class="button"
               tooltip="Print">
               <i class="nc-icon-mini tech_print"></i>
-            </a>
+            </a><!-- 
             <a
               target="_blank"
-              @click.prevent="downloadFile()"
+              @click.prevent="downloadFile(uprs, uprItems)"
               class="button"
               tooltip="Download">
               <i class="nc-icon-mini arrows-1_cloud-download-95"></i>
-            </a>
+            </a> -->
             <router-link to="upr-list-page" class="button button--pull-left" ><i class="nc-icon-mini arrows-1_tail-left"></i></router-link>  
 
-            <router-link :to="{ path: 'upr-edit-page', query: { uprId: uprs.id, uprDetails: uprs }}"class="button" ><i class="nc-icon-mini design_pen-01"></i></router-link>
+            <router-link 
+              v-if="uprs.id" :to="{ path: 'upr-edit-page', query: { uprId: uprs.id, uprDetails: uprs }}"class="button" ><i class="nc-icon-mini design_pen-01"></i></router-link>
           </div>
 
         </div>
         <!-- <upr-button  :upr="uprs" :signatories="signatories" :items="uprItems"></upr-button> -->
-        <json-excel :data = "json_data" :items = "uprItems" :upr = "uprs" :fields = "json_fields" :meta = "json_meta" name = "draft-upr.xls"></json-excel>
+        <json-excel v-if="uprs.id" :data = "json_data" :items = "uprItems" :upr = "uprs" :fields = "json_fields" :meta = "json_meta" name = "draft-upr.xls"></json-excel>
 
         <div class="data-panel">
 
@@ -210,7 +212,8 @@
               </li>
               <li  class="data-panel__list__item">
                 <strong  class="data-panel__list__item__label">Mode of Procurement :</strong>
-                {{uprs.modes}}
+                <span v-if="uprs.modes">{{uprs.modes}}</span>
+                <span v-if="!uprs.modes">Public Bidding</span>
               </li>
               <li  class="data-panel__list__item">
                 <strong  class="data-panel__list__item__label">Place Of Delivery :</strong>
@@ -385,11 +388,147 @@
         'dropdownSignatory'
       
       ]),
-      downloadFile(){
-        var pdfPath = "src/download/upr-"+item.upr_number+".pdf"
-        var filepath = "file://" + require('path').join(process.resourcesPath, pdfPath)
+      downloadFile(item, items){
 
-        this.$electron.ipcRenderer.send('download-btn', filepath)
+        var dis = this
+        this.$root.$children[0].loading = true
+        const account_codes = []
+        var itemRows = ""
+        items.forEach(function(element, index) {
+          account_codes.push(element.new_account_code_name)
+          var indexCount = index + 1
+          
+          let totalamount = (element.total_amount/1).toFixed(2).replace(',', '.')
+          totalamount = totalamount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+
+          itemRows = itemRows.concat("<tr>")
+          itemRows = itemRows.concat("<td class='align-center'>"+indexCount+"</td>")
+          itemRows = itemRows.concat("<td class='align-left'>"+element.item_description+"</td>")
+          itemRows = itemRows.concat("<td class='align-center'>"+element.quantity+"</td>")
+          itemRows = itemRows.concat("<td class='align-center'>"+element.unit_measurement+"</td>")
+          itemRows = itemRows.concat("<td class='align-right'>"+element.unit_price+"</td>")
+          itemRows = itemRows.concat("<td class='align-right'>"+totalamount+"</td>")
+          itemRows = itemRows.concat("</tr>")
+        });
+
+        itemRows = itemRows.concat('<td class="align-center" colspan="6"><strong>x-x-x-x-x Nothing Follows x-x-x-x-x</strong></td>')
+
+        for (var i = items.length ; i < 20; i++) {
+          itemRows = itemRows.concat("<tr>")
+          itemRows = itemRows.concat("<td class='align-center'>&nbsp;</td>")
+          itemRows = itemRows.concat("<td class='align-left'>&nbsp;</td>")
+          itemRows = itemRows.concat("<td class='align-center'>&nbsp;</td>")
+          itemRows = itemRows.concat("<td class='align-center'>&nbsp;</td>")
+          itemRows = itemRows.concat("<td class='align-right'>&nbsp;</td>")
+          itemRows = itemRows.concat("<td class='align-right'>&nbsp;</td>")
+          itemRows = itemRows.concat("</tr>")
+        }
+
+        var set = new Set(account_codes)
+        var newAC = Array.from(set);
+        var id = item.units
+        var funder = item.fund_signatory_text
+        var eplodedFunder = funder.split("/")
+        var requestor = item.requestor_text
+        var eplodedRequestor = requestor.split("/")
+        var approver = item.approver_text
+        var eplodedApprover = approver.split("/")
+
+        db.serialize(function () {
+          db.get('select * from form_headers where unit_id=?', {1: id}, function (err, result) {
+            if (err != null) {
+              console.log(err)
+              dis.$root.$children[0].loading = false
+            } 
+            let parsed = fs.readFileSync(require('path').join(process.resourcesPath, "src/forms/upr-template.html"))
+            var str = parsed.toString()
+            var ref_number = item.ref_number
+            if ( ref_number == null ) {
+              var ref_number = ""
+            }
+
+            let val = (item.total_amount/1).toFixed(2).replace(',', '.')
+            val = val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+            var content = ""
+            if(result != null && result != '')
+            {
+              content = result.content
+            }
+            var tdate = moment(item.date_prepared).format('DD MMM YYYY');
+
+            var newstr = str.replace(/{{headers}}/i, content)
+            var newstr = newstr.replace(/{{place_of_delivery}}/i, item.place_of_delivery)
+            var newstr = newstr.replace(/{{upr_number}}/i, item.upr_number)
+            var newstr = newstr.replace(/{{modes}}/i, item.modes)
+            var newstr = newstr.replace(/{{charge}}/i, item.charge)
+            var newstr = newstr.replace(/{{ref_number}}/i, ref_number)
+            var newstr = newstr.replace(/{{fund_validity}}/i, item.fund_validity)
+            var newstr = newstr.replace(/{{terms}}/i, item.terms)
+            var newstr = newstr.replace(/{{date_prepared}}/i, tdate)
+            var newstr = newstr.replace(/{{other_infos}}/i, item.other_infos)
+            var newstr = newstr.replace(/{{purpose}}/i, item.purpose)
+            var newstr = newstr.replace(/{{total_amount}}/i, val)
+            var newstr = newstr.replace(/{{items}}/i, itemRows)
+            var newstr = newstr.replace(/{{account_codes}}/i, newAC.join(','))
+            if (eplodedFunder.length == 4) {
+              var newstr = newstr.replace(/{{funder_name}}/i, eplodedFunder[0])
+              var newstr = newstr.replace(/{{funder_ranks}}/i, eplodedFunder[1])
+              var newstr = newstr.replace(/{{funder_branch}}/i, eplodedFunder[2])
+              var newstr = newstr.replace(/{{funder_designation}}/i, eplodedFunder[3])
+            }
+            if (eplodedRequestor.length == 4) {
+              var newstr = newstr.replace(/{{requestor_name}}/i, eplodedRequestor[0])
+              var newstr = newstr.replace(/{{requestor_ranks}}/i, eplodedRequestor[1])
+              var newstr = newstr.replace(/{{requestor_branch}}/i, eplodedRequestor[2])
+              var newstr = newstr.replace(/{{requestor_designation}}/i, eplodedRequestor[3])
+            }
+            if (eplodedApprover.length == 4) {
+              var newstr = newstr.replace(/{{approver_name}}/i, eplodedApprover[0])
+              var newstr = newstr.replace(/{{approver_ranks}}/i, eplodedApprover[1])
+              var newstr = newstr.replace(/{{approver_branch}}/i, eplodedApprover[2])
+              var newstr = newstr.replace(/{{approver_designation}}/i, eplodedApprover[3])
+            } 
+            var newstr = newstr.replace(/null/g, '')
+            var newstr = newstr.replace(/undefined/g, '')
+
+            var loc = require('path').join(process.resourcesPath, "src/download/upr-"+item.upr_number+".pdf")
+            fs.writeFile(require('path').join(process.resourcesPath, "src/forms/test.html"), newstr, function (err) {
+
+              if (err) {
+                // alert('Error downloading file please try again.')
+                dis.$root.$children[0].loading = false
+              }
+
+              var childArgs = [
+                require('path').join(process.resourcesPath, "src/forms/test.html"),
+                loc,
+              ]
+
+              childProcess.execFile(binPath, childArgs, function(err, stdout, stderr) {
+                if (stderr) {
+                  console.log(stderr)
+                }
+                if (stdout) {
+                  console.log(stdout)
+                }
+                if (err) {
+                  console.log(err)
+                  dis.$root.$children[0].loading = false
+                }
+              })
+            });
+
+            
+            dis.$root.$children[0].loading = false
+            
+            var pdfPath = "src/download/upr-"+item.upr_number+".pdf"
+            var filepath = "file://" + require('path').join(process.resourcesPath, pdfPath)
+
+            dis.$electron.ipcRenderer.send('download-btn', filepath)
+
+          })
+        })
+
 
       },
       fileInputOpen (){
@@ -511,6 +650,7 @@
           return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
       },
       PrintUPR (item, items) {
+        var dis = this
         this.$root.$children[0].loading = true
         const account_codes = []
         var itemRows = ""
@@ -533,7 +673,7 @@
 
         itemRows = itemRows.concat('<td class="align-center" colspan="6"><strong>x-x-x-x-x Nothing Follows x-x-x-x-x</strong></td>')
 
-        for (var i = items.length ; i < 20; i++) {
+        for (var i = items.length ; i < 15; i++) {
           itemRows = itemRows.concat("<tr>")
           itemRows = itemRows.concat("<td class='align-center'>&nbsp;</td>")
           itemRows = itemRows.concat("<td class='align-left'>&nbsp;</td>")
@@ -548,17 +688,26 @@
         var newAC = Array.from(set);
         var id = item.units
         var funder = item.fund_signatory_text
-        var eplodedFunder = funder.split("/")
+        var eplodedFunder = ['','','','']
+        if( funder != 'undefined' && funder != null){
+          var eplodedFunder = funder.split("/")
+        }
         var requestor = item.requestor_text
-        var eplodedRequestor = requestor.split("/")
+        var eplodedRequestor = ['','','','']
+        if( requestor != 'undefined' && requestor != null){
+          var eplodedRequestor = requestor.split("/")
+        }
         var approver = item.approver_text
-        var eplodedApprover = approver.split("/")
+        var eplodedApprover = ['','','','']
+        if( approver != 'undefined' && approver != null){
+          var eplodedApprover = approver.split("/")
+        }
 
         db.serialize(function () {
           db.get('select * from form_headers where unit_id=?', {1: id}, function (err, result) {
             if (err != null) {
               console.log(err)
-              this.$root.$children[0].loading = false
+              dis.$root.$children[0].loading = false
             } 
             let parsed = fs.readFileSync(require('path').join(process.resourcesPath, "src/forms/upr-template.html"))
             var str = parsed.toString()
@@ -574,12 +723,18 @@
             {
               content = result.content
             }
+
             var tdate = moment(item.date_prepared).format('DD MMM YYYY');
+            var mode = item.modes
+
+            if(mode == null || mode == 'undefined'){
+              var mode = 'Public Bidding'
+            }
 
             var newstr = str.replace(/{{headers}}/i, content)
             var newstr = newstr.replace(/{{place_of_delivery}}/i, item.place_of_delivery)
             var newstr = newstr.replace(/{{upr_number}}/i, item.upr_number)
-            var newstr = newstr.replace(/{{modes}}/i, item.modes)
+            var newstr = newstr.replace(/{{modes}}/i, mode)
             var newstr = newstr.replace(/{{charge}}/i, item.charge)
             var newstr = newstr.replace(/{{ref_number}}/i, ref_number)
             var newstr = newstr.replace(/{{fund_validity}}/i, item.fund_validity)
@@ -615,8 +770,8 @@
             fs.writeFile(require('path').join(process.resourcesPath, "src/forms/test.html"), newstr, function (err) {
 
               if (err) {
-                alert('Error downloading file please try again.')
-                this.$root.$children[0].loading = false
+                // alert('Error downloading file please try again.')
+                dis.$root.$children[0].loading = false
               }
 
               var childArgs = [
@@ -627,26 +782,18 @@
               childProcess.execFile(binPath, childArgs, function(err, stdout, stderr) {
                 if (err) {
                   console.log(err)
-                  this.$root.$children[0].loading = false
+                  dis.$root.$children[0].loading = false
                 }
               })
             });
 
             // var doc = wkhtmltopdf(newstr, { output: loc, pageSize: 'letter'})
             
+            dis.$root.$children[0].loading = false
             router.push({
               name: 'view-pdf',
               query: { url: "src/download/upr-"+item.upr_number+".pdf", backUrl: "upr-list-page" }
             })
-
-            this.$root.$children[0].loading = false
-            // alert('file successfully downloaded')
-            // wkhtmltopdf(newstr, { pageSize: 'letter' }, function (err, stream) {
-            //   // do whatever with the stream
-            //   console.log(stream)
-            //   console.log(stream.stdout)
-            // });
-            // console.log(doc.stdout)
 
           })
         })

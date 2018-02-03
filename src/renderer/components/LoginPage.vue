@@ -30,6 +30,7 @@
   import Connectivity from './Connectivity'
 
   var internetAvailable = require("internet-available");
+  const isOnline = require('is-online');
 
   export default {
     name: 'login-page',
@@ -48,7 +49,7 @@
     components: { Connectivity },
     mounted: function() {
       localStorage.setItem('id_token', null)
-      this.loadData()
+      // this.loadData()
     },
     methods: {
       ...mapActions([
@@ -64,7 +65,14 @@
         'syncAccounts'
       ]),
       manualSync(){  
-        this.syncModules() 
+        isOnline().then(online => {
+          if (online) {
+            this.syncModules()
+          }
+          else{
+            alert('You are currently offline')
+          }
+        });
       },
       signin (event) {
         router.push({
@@ -77,7 +85,14 @@
         })
       },
       loadData: function () {
-        this.syncModules()
+        isOnline().then(online => {
+          if (online) {
+            this.syncModules()
+          }
+          else{
+            alert('You are currently offline')
+          }
+        });
       },
       syncModules: function () {
         var e = this
@@ -95,6 +110,7 @@
             e.syncPaymentTerms()
             e.syncChargeabilitys()
             e.syncProcurementTypes()
+            e.syncProcurementModes()
             setTimeout(function () {
                 e.$root.$children[0].loading = false
             }.bind(this), 30000)

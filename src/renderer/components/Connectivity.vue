@@ -6,6 +6,7 @@
 
 <script>
 var internetAvailable = require("internet-available");
+const isOnline = require('is-online');
 
 export default {
   name: 'app',
@@ -18,18 +19,14 @@ export default {
   },
   mounted: function () {
     var e = this
-
     setInterval(function () {
-        
         internetAvailable({
             timeout: 1000,
             retries: 10,
         }).then(function(){
-            console.log("Internet available");
             e.online = 'online'
         }).catch(function(e){
-            console.log("No internet");
-            e.online = 'offline'
+            e.online = false
         });
     }.bind(this), 5000)
   }

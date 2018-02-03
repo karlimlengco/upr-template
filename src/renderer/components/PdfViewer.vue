@@ -1,10 +1,11 @@
 <template>
   <div class="pdf-viewer-wrapper">
-    <!-- <router-link to="landing-page" class="button button--pull-left" ><i class="nc-icon-mini  arrows-1_tail-left"></i></router-link> -->
     
-    <button class="button button--pull-right" @click.prevent="backLink()"><i class="nc-icon-mini  arrows-1_tail-left"></i></button>
+    <button class="button " style=" position:fixed; top:10;" @click.prevent="backLink()"><i class="nc-icon-mini  arrows-1_tail-left"></i></button>
     
-    <button class="button button--pull-right" @click.prevent="downloadFile()">Download</button>
+    <button class="button " style=" position:fixed; top:10; left:360px" @click.prevent="downloadFile()">Download</button>
+
+    <button class="button" style=" position:fixed; top:10; right:310px; z-index:999999" @click.prevent="backLink()"><i class="nc-icon-mini  ui-1_bold-remove"></i></button>
 
     <div class="pdf-loader" v-if="isLoading">
       <h1>Loading Preview</h1>
@@ -15,21 +16,34 @@
 </template>
 
 <style>
+
+  table tr td, table tr th {
+      page-break-inside: avoid !important;
+      margin: 4px 0 4px 0;
+  }
+  .pdf-page-canvas {
+    display: block;
+    margin: 5px auto;
+    border: 1px solid rgba(0, 0, 0, 0.8);
+  }
   .pdf-viewer-wrapper {
     margin: 0 auto;
     margin-top: 30px;
     width: 900px;
 
     canvas {
-      box-shadow: 0 0 8px rgba(0, 0, 0, 0.2);
-      margin-bottom: 20px;
+      box-shadow: 0 0 8px rgba(0, 0, 0, 0.6);
+      margin-bottom: 15px;
+      border:10px solid black!important;
     }
   }
 
   .pdf-pages {
     height: 100%;
+    border:10px solid black!important;
     canvas {
-      margin-bottom: 20px;
+      margin-bottom: 15px;
+      border:10px solid black!important;
     }
   }
 
@@ -84,6 +98,7 @@
         function renderPage (page) {
           var viewport = page.getViewport(1.5)
           var canvas = document.createElement('canvas')
+          canvas.style.display = "block";
           var ctx = canvas.getContext('2d')
           var renderContext = {
             canvasContext: ctx,
@@ -122,11 +137,6 @@
           }
         }
       }.bind(this), 5000)
-      // setTimeout(function () {
-      //   var pdfViewer = document.getElementById('pdf-viewer')
-      //   this.renderPdf(this.$route.query.url, pdfViewer)
-
-      // }.bind(this), 15000)
       this.backUrl = this.$route.query.backUrl
     }
   }
